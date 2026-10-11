@@ -1,0 +1,4 @@
+timestamp,location,lat,lon,current_speed,free_flow_speed,speed_ratio,live_level,live_index,traffic_is_live,temp_c,rain_mm,cloud_cover
+2026-10-11T11:05:19.568779,Mumbai,19.076,72.8777,26.0,55.0,0.4727,High,0.8,False,35.5,0.0,19
+2026-10-11T11:05:19.568779,Pune,18.5204,73.8567,38.0,60.0,0.6333,Moderate,0.55,False,32.0,0.0,14
+2026-10-11T11:05:19.568779,Ratnagiri (Konkan),16.9902,73.312,48.0,50.0,0.96,Low,0.2,False,33.7,0.0,0

@@ -1,0 +1,50 @@
+{
+  "Mumbai": {
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 26,
+      "freeFlowSpeed": 55,
+      "currentTravelTime": 240,
+      "freeFlowTravelTime": 113,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 31.5,
+      "precipitation": 0.0,
+      "cloud_cover": 25
+    }
+  },
+  "Pune": {
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 38,
+      "freeFlowSpeed": 60,
+      "currentTravelTime": 180,
+      "freeFlowTravelTime": 114,
+      "confidence": 0.92,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 28.0,
+      "precipitation": 0.0,
+      "cloud_cover": 40
+    }
+  },
+  "Ratnagiri (Konkan)": {
+    "flowSegmentData": {
+      "frc": "FRC2",
+      "currentSpeed": 48,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 95,
+      "freeFlowTravelTime": 91,
+      "confidence": 0.85,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.2,
+      "precipitation": 0.5,
+      "cloud_cover": 65
+    }
+  }
+}
