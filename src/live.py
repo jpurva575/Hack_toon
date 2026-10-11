@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from src.config import (
     LOCATIONS,
+    POINTS,
     SPEED_RATIO_THRESHOLDS,
     LEVEL_MIDPOINTS,
     SAMPLE_LIVE_PATH
@@ -25,9 +26,8 @@ def load_sample_fallback(location_name: str) -> Tuple[Dict[str, Any], Dict[str, 
             data = json.load(f)
         if location_name in data:
             loc_data = data[location_name]
-            return loc_data.get("flowSegmentData", {}), loc_data.get("weather", {})
+            return loc_data.get("flowSegmentData", loc_data), loc_data.get("weather", {})
             
-    # Generic hardcoded fallback if sample file is missing
     fallback_flow = {
         "currentSpeed": 35,
         "freeFlowSpeed": 60,
@@ -130,16 +130,17 @@ def get_live_data_and_level(
     Orchestrates live traffic and weather retrieval with fallback.
     Computes speed ratio, live congestion level, and live midpoint index.
     """
-    loc = LOCATIONS.get(location_name, LOCATIONS["Mumbai"])
+    if location_name in LOCATIONS:
+        loc = LOCATIONS[location_name]
+    elif location_name in POINTS:
+        loc = POINTS[location_name]
+    else:
+        loc = LOCATIONS["Mumbai"]
+        
     lat, lon = loc["lat"], loc["lon"]
     
-    # 1. Fetch traffic
     flow_data, traffic_is_live, traffic_msg = fetch_tomtom_traffic(lat, lon, api_key)
-    
-    # 2. Fetch weather
     weather_data, weather_is_live, weather_msg = fetch_open_meteo_weather(lat, lon)
-    
-    # Fallback check
     sample_flow, sample_weather = load_sample_fallback(location_name)
     
     if not traffic_is_live:
@@ -171,3 +172,19 @@ def get_live_data_and_level(
         "weather_is_live": weather_is_live,
         "weather_status": weather_msg
     }
+
+
+def get_live_point_data(point_id: str, simulated_ratio: float = None) -> Dict[str, Any]:
+    """Bridge for Feature 3 & 4 point lookups."""
+    res = get_live_data_and_level(point_id)
+    if simulated_ratio is not None:
+        res["speed_ratio"] = simulated_ratio
+        res["live_level"] = speed_ratio_to_level(simulated_ratio)
+        res["live_index"] = level_to_midpoint_index(res["live_level"])
+        res["is_simulated"] = True
+    else:
+        res["is_simulated"] = False
+    res["point_id"] = point_id
+    res["ratio"] = res["speed_ratio"]
+    res["api_ok"] = res["traffic_is_live"]
+    return res

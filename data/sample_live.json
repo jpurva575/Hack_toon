@@ -1,50 +1,80 @@
 {
-  "Mumbai": {
-    "flowSegmentData": {
-      "frc": "FRC0",
-      "currentSpeed": 26,
-      "freeFlowSpeed": 55,
-      "currentTravelTime": 240,
-      "freeFlowTravelTime": 113,
-      "confidence": 0.95,
-      "roadClosure": false
-    },
-    "weather": {
-      "temperature_2m": 31.5,
-      "precipitation": 0.0,
-      "cloud_cover": 25
-    }
+  "mum_we_highway": {
+    "point_id": "mum_we_highway",
+    "region": "mumbai",
+    "lat": 19.0596,
+    "lon": 72.8446,
+    "current_speed": 22.0,
+    "free_flow_speed": 60.0,
+    "ratio": 0.367,
+    "temp_c": 31.5,
+    "rain_mm": 0.0,
+    "clouds_pct": 20,
+    "api_ok": true
   },
-  "Pune": {
-    "flowSegmentData": {
-      "frc": "FRC1",
-      "currentSpeed": 38,
-      "freeFlowSpeed": 60,
-      "currentTravelTime": 180,
-      "freeFlowTravelTime": 114,
-      "confidence": 0.92,
-      "roadClosure": false
-    },
-    "weather": {
-      "temperature_2m": 28.0,
-      "precipitation": 0.0,
-      "cloud_cover": 40
-    }
+  "mum_ee_highway": {
+    "point_id": "mum_ee_highway",
+    "region": "mumbai",
+    "lat": 19.0522,
+    "lon": 72.8995,
+    "current_speed": 34.0,
+    "free_flow_speed": 65.0,
+    "ratio": 0.523,
+    "temp_c": 31.5,
+    "rain_mm": 0.0,
+    "clouds_pct": 20,
+    "api_ok": true
   },
-  "Ratnagiri (Konkan)": {
-    "flowSegmentData": {
-      "frc": "FRC2",
-      "currentSpeed": 48,
-      "freeFlowSpeed": 50,
-      "currentTravelTime": 95,
-      "freeFlowTravelTime": 91,
-      "confidence": 0.85,
-      "roadClosure": false
-    },
-    "weather": {
-      "temperature_2m": 29.2,
-      "precipitation": 0.5,
-      "cloud_cover": 65
-    }
+  "pune_shivajinagar": {
+    "point_id": "pune_shivajinagar",
+    "region": "pune",
+    "lat": 18.5314,
+    "lon": 73.8446,
+    "current_speed": 28.0,
+    "free_flow_speed": 45.0,
+    "ratio": 0.622,
+    "temp_c": 28.2,
+    "rain_mm": 0.0,
+    "clouds_pct": 10,
+    "api_ok": true
+  },
+  "pune_hinjewadi": {
+    "point_id": "pune_hinjewadi",
+    "region": "pune",
+    "lat": 18.5913,
+    "lon": 73.7389,
+    "current_speed": 18.0,
+    "free_flow_speed": 50.0,
+    "ratio": 0.360,
+    "temp_c": 28.0,
+    "rain_mm": 0.0,
+    "clouds_pct": 10,
+    "api_ok": true
+  },
+  "konkan_nh66_chiplun": {
+    "point_id": "konkan_nh66_chiplun",
+    "region": "konkan",
+    "lat": 17.5323,
+    "lon": 73.5178,
+    "current_speed": 58.0,
+    "free_flow_speed": 65.0,
+    "ratio": 0.892,
+    "temp_c": 29.0,
+    "rain_mm": 0.0,
+    "clouds_pct": 5,
+    "api_ok": true
+  },
+  "konkan_nh66_khed": {
+    "point_id": "konkan_nh66_khed",
+    "region": "konkan",
+    "lat": 17.7214,
+    "lon": 73.3934,
+    "current_speed": 62.0,
+    "free_flow_speed": 70.0,
+    "ratio": 0.886,
+    "temp_c": 29.2,
+    "rain_mm": 0.0,
+    "clouds_pct": 5,
+    "api_ok": true
   }
 }

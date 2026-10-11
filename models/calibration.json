@@ -1,0 +1,41 @@
+{
+  "mumbai": {
+    "region": "mumbai",
+    "offset": 0.4584,
+    "n_usable": 72,
+    "n_train": 50,
+    "n_test": 22,
+    "mae_before": 0.366,
+    "mae_after": 0.0926,
+    "acc_before": 0.0,
+    "acc_after": 0.5,
+    "coverage": 1.0,
+    "status": "calibrated"
+  },
+  "pune": {
+    "region": "pune",
+    "offset": 0.3574,
+    "n_usable": 72,
+    "n_train": 50,
+    "n_test": 22,
+    "mae_before": 0.2183,
+    "mae_after": 0.1452,
+    "acc_before": 0.3182,
+    "acc_after": 0.5455,
+    "coverage": 1.0,
+    "status": "calibrated"
+  },
+  "konkan": {
+    "region": "konkan",
+    "offset": -0.1576,
+    "n_usable": 72,
+    "n_train": 50,
+    "n_test": 22,
+    "mae_before": 0.271,
+    "mae_after": 0.1564,
+    "acc_before": 0.1364,
+    "acc_after": 0.8636,
+    "coverage": 1.0,
+    "status": "calibrated"
+  }
+}

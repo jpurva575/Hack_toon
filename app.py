@@ -7,16 +7,17 @@ import joblib
 from src.config import MODEL_PATH, META_PATH
 from src.ui_f1 import render_feature1_tab
 from src.ui_f2 import render_feature2_tab
+from src.ui_f4 import render_dashboard as render_feature4_tab
 from src.train import train_pipeline
 
 st.set_page_config(
-    page_title="Traffic Congestion Forecasting (5–120 min)",
+    page_title="Traffic Congestion Forecasting & Pan-India Route Engine",
     page_icon="🚦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom header CSS
+# Custom header styling
 st.markdown("""
 <style>
     .main-title {
@@ -50,37 +51,8 @@ def load_artifacts():
 
 
 def main():
-    st.markdown('<div class="main-title">🚦 Traffic Congestion Forecasting System</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-title">Dual-engine predictive architecture: Historical Pattern Classifier + Live Decay Blending (5–120 min)</div>', unsafe_allow_html=True)
-
-    # Sidebar
-    with st.sidebar:
-        st.header("⚙️ System Control")
-        st.info(
-            """
-            **Deliverables Built:**
-            - **Feature 1:** Pattern Learning & Congestion Classifier (Macro-F1 0.838 vs Baseline 0.813)
-            - **Feature 2:** Live Integration & 5–120 min Exponential Decay Blend (tau = 60m)
-            """
-        )
-        if st.button("🔁 Retrain Feature 1 Model"):
-            with st.spinner("Retraining model on historical dataset..."):
-                st.cache_resource.clear()
-                train_pipeline()
-                st.success("Model successfully retrained and saved!")
-                st.rerun()
-
-        st.markdown("---")
-        st.markdown("### 📋 Teammate Demo Guide (2 min)")
-        st.markdown(
-            """
-            1. **Feature 1 Tab:** Show Monday 08:00 AM prediction, top drivers (Hour, Lags), and weekday vs weekend curves.
-            2. **Feature 2 Tab:** Pick Mumbai corridor, click *Fetch Live Status*, inspect 7 forecast horizons.
-            3. **Sensitivity Check:** Move *Simulate live speed ratio* to **0.30** $\\rightarrow$ see +5 min turn Severe while +120 min retains historical anchor.
-            """
-        )
-        st.markdown("---")
-        st.caption("Antigravity AI | Production Deliverable")
+    st.markdown('<div class="main-title">🚦 Traffic Congestion Forecasting & Navigation Suite</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-title">Complete 4-Feature Architecture: Pattern Learning (F1) + Live Decay Blending (F2) + Cross-Region Adaptation (F3) + Pan-India Route Heatmap (F4)</div>', unsafe_allow_html=True)
 
     # Load trained model and metadata
     try:
@@ -89,17 +61,21 @@ def main():
         st.error(f"Failed to load model artifacts: {e}")
         return
 
-    # Two main feature tabs matching PRD
-    tab1, tab2 = st.tabs([
-        "📊 Feature 1: Pattern Learning & Classifier",
-        "⚡ Feature 2: Live Integration & 5–120 min Forecast"
+    # Master Tab Navigation unifying Features 1, 2, 3 & 4
+    tab_f4, tab_f2, tab_f1 = st.tabs([
+        "🗺️ Feature 4 & 3: Pan-India Route Heatmap & Regional Forecast",
+        "⚡ Feature 2: Live Integration & 5–120 min Forecast",
+        "📊 Feature 1: Pattern Learning & Classifier"
     ])
 
-    with tab1:
-        render_feature1_tab(model, meta)
+    with tab_f4:
+        render_feature4_tab()
 
-    with tab2:
+    with tab_f2:
         render_feature2_tab(meta)
+
+    with tab_f1:
+        render_feature1_tab(model, meta)
 
 
 if __name__ == "__main__":
