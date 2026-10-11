@@ -4,21 +4,21 @@ import datetime
 from typing import Dict, Any, Optional
 import numpy as np
 import pandas as pd
+<<<<<<< HEAD
 
 from src.features import FEATURE_COLUMNS, class_id_to_level
 from src.config import META_PATH
+=======
+from typing import Dict, Any, List, Tuple
+from src.features import extract_single_feature_vector, class_id_to_level
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
 
 
-def build_hourly_profile_and_curves(
-    df: pd.DataFrame,
-    cutoffs: Dict[str, float]
-) -> Dict[str, Any]:
+def build_network_profiles(df: pd.DataFrame) -> Dict[str, Any]:
     """
-    Computes:
-    1. Hourly profile for all 168 hours of the week (day_of_week 0..6, hour 0..23).
-    2. Weekday vs weekend average 24-hour volume curves.
-    3. Min/Max historical volume for percentile rank normalization.
+    Computes per-node and global 168-hour profiles, plus weekday vs weekend curves.
     """
+<<<<<<< HEAD
     profile_df = df.groupby(["day_of_week", "hour"])["traffic_volume"].mean().reset_index()
     vol_min = float(df["traffic_volume"].min())
     vol_max = float(df["traffic_volume"].max())
@@ -51,44 +51,98 @@ def build_hourly_profile_and_curves(
     
     weekend_df = df[df["day_of_week"] >= 5].groupby("hour")["traffic_volume"].mean()
     weekend_curve = [round(float(weekend_df.get(h, 0.0)), 1) for h in range(24)]
+=======
+    profiles = {}
     
-    return {
-        "hourly_profile": hourly_profile,
-        "weekday_curve": weekday_curve,
-        "weekend_curve": weekend_curve,
-        "vol_min": vol_min,
-        "vol_max": vol_max
-    }
+    # 1. Global network-level profile across all nodes
+    global_df = df.groupby(["day_of_week", "hour"])[["total_vehicle_count", "average_speed_kmh", "congestion_score"]].mean().reset_index()
+    global_profile = {}
+    for _, r in global_df.iterrows():
+        dow = int(r["day_of_week"])
+        hr = int(r["hour"])
+        score = float(r["congestion_score"])
+        norm_idx = np.clip(score / 100.0, 0.0, 1.0)
+        global_profile[f"{dow}_{hr}"] = {
+            "volume": round(float(r["total_vehicle_count"]), 1),
+            "speed": round(float(r["average_speed_kmh"]), 1),
+            "score": round(score, 1),
+            "index": round(float(norm_idx), 4)
+        }
+    profiles["global_profile"] = global_profile
+    
+    # 2. Per-node profiles
+    node_profiles = {}
+    for nid, group in df.groupby("node_id"):
+        n_prof = group.groupby(["day_of_week", "hour"])[["total_vehicle_count", "average_speed_kmh", "congestion_score"]].mean().reset_index()
+        n_dict = {}
+        for _, r in n_prof.iterrows():
+            dow = int(r["day_of_week"])
+            hr = int(r["hour"])
+            score = float(r["congestion_score"])
+            norm_idx = np.clip(score / 100.0, 0.0, 1.0)
+            n_dict[f"{dow}_{hr}"] = {
+                "volume": round(float(r["total_vehicle_count"]), 1),
+                "speed": round(float(r["average_speed_kmh"]), 1),
+                "score": round(score, 1),
+                "index": round(float(norm_idx), 4)
+            }
+        node_profiles[nid] = n_dict
+    profiles["node_profiles"] = node_profiles
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
+    
+    # 3. Weekday vs Weekend Volume Curves (Network Average)
+    weekday_df = df[df["day_of_week"] < 5].groupby("hour")["total_vehicle_count"].mean()
+    weekend_df = df[df["day_of_week"] >= 5].groupby("hour")["total_vehicle_count"].mean()
+    profiles["weekday_curve"] = [round(float(weekday_df.get(h, 0.0)), 1) for h in range(24)]
+    profiles["weekend_curve"] = [round(float(weekend_df.get(h, 0.0)), 1) for h in range(24)]
+    
+    return profiles
 
 
 def get_profile_index_at_time(
     dt: datetime.datetime,
-    meta: Dict[str, Any]
+    meta: Dict[str, Any],
+    node_id: str = None
 ) -> float:
     """
+<<<<<<< HEAD
     Calculates profile_index(t) in [0, 1].
     For sub-hour horizons, interpolates linearly between current hour and next hour.
     """
     hourly_profile = meta.get("hourly_profile", {})
+=======
+    Retrieves historical congestion profile index [0, 1] for a timestamp and optional node.
+    Linearly interpolates across sub-hour minutes.
+    """
+    node_profiles = meta.get("node_profiles", {})
+    if node_id and node_id in node_profiles:
+        profile_map = node_profiles[node_id]
+    else:
+        profile_map = meta.get("global_profile", meta.get("hourly_profile", {}))
+        
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
     dow = dt.weekday()
     hr = dt.hour
     minute = dt.minute
     
     curr_key = f"{dow}_{hr}"
-    curr_val = hourly_profile.get(curr_key, {}).get("index", 0.5)
+    curr_item = profile_map.get(curr_key, {})
+    curr_val = curr_item.get("index", 0.40)
     
     if minute == 0:
         return float(curr_val)
         
     dt_next = dt + datetime.timedelta(hours=1)
     next_key = f"{dt_next.weekday()}_{dt_next.hour}"
-    next_val = hourly_profile.get(next_key, {}).get("index", curr_val)
+    next_item = profile_map.get(next_key, {})
+    next_val = next_item.get("index", curr_val)
     
     fraction = minute / 60.0
     interpolated = (1.0 - fraction) * curr_val + fraction * next_val
     return float(np.clip(interpolated, 0.0, 1.0))
 
 
+<<<<<<< HEAD
 def predict_profile(dt: datetime.datetime, weather: Optional[Dict[str, float]] = None) -> float:
     """
     Bridge function: Loads meta.json and evaluates get_profile_index_at_time(dt, meta).
@@ -116,15 +170,26 @@ def predict_profile(dt: datetime.datetime, weather: Optional[Dict[str, float]] =
 
 
 def build_single_row_features(
+=======
+def predict_node_level(
+    node_id: str,
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
     dt: datetime.datetime,
+    model: Any,
     meta: Dict[str, Any],
+<<<<<<< HEAD
     weather: Optional[Dict[str, float]] = None,
     holiday_flag: int = 0
 ) -> pd.DataFrame:
+=======
+    weather: Dict[str, float] = None,
+    disruptions: Dict[str, int] = None
+) -> Tuple[str, List[float], pd.DataFrame]:
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
     """
-    Constructs a 1-row DataFrame of features for any datetime.
-    Lag proxy: Uses hour-of-week average volume for lag_24h and lag_168h.
+    Predicts congestion level (Low, Moderate, High, Severe) and class probabilities for a node.
     """
+<<<<<<< HEAD
     if weather is None:
         weather = {"temp_c": 25.0, "rain_mm": 0.0, "clouds_pct": 30.0}
         
@@ -152,3 +217,9 @@ def build_single_row_features(
     }
     
     return pd.DataFrame([row_data], columns=FEATURE_COLUMNS)
+=======
+    X_single = extract_single_feature_vector(node_id, dt, meta, weather, disruptions)
+    pred_class_id = int(model.predict(X_single)[0])
+    pred_probs = model.predict_proba(X_single)[0]
+    return class_id_to_level(pred_class_id), [float(p) for p in pred_probs], X_single
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502

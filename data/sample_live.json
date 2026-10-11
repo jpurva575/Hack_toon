@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "mum_we_highway": {
     "point_id": "mum_we_highway",
     "region": "mumbai",
@@ -76,5 +77,618 @@
     "rain_mm": 0.0,
     "clouds_pct": 5,
     "api_ok": true
+=======
+  "MUM_BKC_01": {
+    "node_id": "MUM_BKC_01",
+    "name": "BKC Connector / Kalanagar Junction",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 28.8,
+      "freeFlowSpeed": 60,
+      "currentTravelTime": 400,
+      "freeFlowTravelTime": 192,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_BKC_02": {
+    "node_id": "MUM_BKC_02",
+    "name": "BKC Central Avenue (Diamond Bourse)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 24.0,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 359,
+      "freeFlowTravelTime": 172,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_CSMT_01": {
+    "node_id": "MUM_CSMT_01",
+    "name": "CSMT Junction & Fort",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 24.0,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 419,
+      "freeFlowTravelTime": 201,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_CSMT_02": {
+    "node_id": "MUM_CSMT_02",
+    "name": "Crawford Market / Marine Lines Connector",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 19.2,
+      "freeFlowSpeed": 40,
+      "currentTravelTime": 393,
+      "freeFlowTravelTime": 189,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_DADAR_01": {
+    "node_id": "MUM_DADAR_01",
+    "name": "Dadar TT Circle (Dr. Ambedkar Road)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 24.0,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 450,
+      "freeFlowTravelTime": 216,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_DADAR_02": {
+    "node_id": "MUM_DADAR_02",
+    "name": "Plaza Cinema / Sena Bhavan (Dadar West)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 16.8,
+      "freeFlowSpeed": 35,
+      "currentTravelTime": 385,
+      "freeFlowTravelTime": 185,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_DADAR_03": {
+    "node_id": "MUM_DADAR_03",
+    "name": "Hindmata Flyover & Junction (Parel)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 15.7,
+      "freeFlowSpeed": 45,
+      "currentTravelTime": 573,
+      "freeFlowTravelTime": 200,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_EEH_01": {
+    "node_id": "MUM_EEH_01",
+    "name": "EEH - Chembur Amar Mahal Junction",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 41.2,
+      "freeFlowSpeed": 75,
+      "currentTravelTime": 393,
+      "freeFlowTravelTime": 216,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_EEH_02": {
+    "node_id": "MUM_EEH_02",
+    "name": "EEH - Ghatkopar Chhedanagar Interconnect",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 41.2,
+      "freeFlowSpeed": 75,
+      "currentTravelTime": 349,
+      "freeFlowTravelTime": 192,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_EEH_03": {
+    "node_id": "MUM_EEH_03",
+    "name": "EEH - Vikhroli Godrej Complex",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 41.2,
+      "freeFlowSpeed": 75,
+      "currentTravelTime": 366,
+      "freeFlowTravelTime": 201,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_EEH_04": {
+    "node_id": "MUM_EEH_04",
+    "name": "EEH - Bhandup Pumping Station Junction",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 41.2,
+      "freeFlowSpeed": 75,
+      "currentTravelTime": 419,
+      "freeFlowTravelTime": 230,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_JVLR_01": {
+    "node_id": "MUM_JVLR_01",
+    "name": "JVLR - Powai Lake / IIT Bombay Junction",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 24.0,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 570,
+      "freeFlowTravelTime": 273,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_LBS_01": {
+    "node_id": "MUM_LBS_01",
+    "name": "LBS Marg - Mulund West Junction",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 19.2,
+      "freeFlowSpeed": 40,
+      "currentTravelTime": 656,
+      "freeFlowTravelTime": 315,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_PAREL_04": {
+    "node_id": "MUM_PAREL_04",
+    "name": "Lower Parel / Senapati Bapat Marg",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 19.2,
+      "freeFlowSpeed": 40,
+      "currentTravelTime": 487,
+      "freeFlowTravelTime": 234,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_SION_05": {
+    "node_id": "MUM_SION_05",
+    "name": "Sion Circle & Gandhi Market",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 24.0,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 405,
+      "freeFlowTravelTime": 194,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_SOBO_03": {
+    "node_id": "MUM_SOBO_03",
+    "name": "Marine Drive / Nariman Point Promenade",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 31.2,
+      "freeFlowSpeed": 65,
+      "currentTravelTime": 415,
+      "freeFlowTravelTime": 199,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_SOBO_04": {
+    "node_id": "MUM_SOBO_04",
+    "name": "Haji Ali / Worli Naka",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 24.0,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 465,
+      "freeFlowTravelTime": 223,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_TOLL_01": {
+    "node_id": "MUM_TOLL_01",
+    "name": "Mulund Check Naka (Mumbai-Thane Toll Plaza)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 14.0,
+      "freeFlowSpeed": 40,
+      "currentTravelTime": 565,
+      "freeFlowTravelTime": 198,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_WEH_01": {
+    "node_id": "MUM_WEH_01",
+    "name": "WEH - Santacruz Airport Underpass",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 38.5,
+      "freeFlowSpeed": 70,
+      "currentTravelTime": 383,
+      "freeFlowTravelTime": 210,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_WEH_02": {
+    "node_id": "MUM_WEH_02",
+    "name": "WEH - Andheri Gundavali Flyover",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 38.5,
+      "freeFlowSpeed": 70,
+      "currentTravelTime": 402,
+      "freeFlowTravelTime": 221,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "MUM_WEH_03": {
+    "node_id": "MUM_WEH_03",
+    "name": "WEH - Goregaon Hub Mall Junction",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 38.5,
+      "freeFlowSpeed": 70,
+      "currentTravelTime": 430,
+      "freeFlowTravelTime": 236,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_01": {
+    "node_id": "THN_NODE_01",
+    "name": "Teen Hath Naka (Thane EEH Gateway)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 17.5,
+      "freeFlowSpeed": 50,
+      "currentTravelTime": 596,
+      "freeFlowTravelTime": 208,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_02": {
+    "node_id": "THN_NODE_02",
+    "name": "Nitin Casting Junction / Panchpakhadi",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 21.6,
+      "freeFlowSpeed": 45,
+      "currentTravelTime": 333,
+      "freeFlowTravelTime": 160,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_03": {
+    "node_id": "THN_NODE_03",
+    "name": "Cadbury Junction (Khopat / Service Road)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 21.6,
+      "freeFlowSpeed": 45,
+      "currentTravelTime": 383,
+      "freeFlowTravelTime": 184,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_04": {
+    "node_id": "THN_NODE_04",
+    "name": "Majiwada Flyover Junction (Nashik/GB Rd Split)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 26.4,
+      "freeFlowSpeed": 55,
+      "currentTravelTime": 463,
+      "freeFlowTravelTime": 222,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_05": {
+    "node_id": "THN_NODE_05",
+    "name": "Kapurbawdi Circle (Bhiwandi/Ghodbunder Split)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 21.6,
+      "freeFlowSpeed": 45,
+      "currentTravelTime": 350,
+      "freeFlowTravelTime": 168,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_06": {
+    "node_id": "THN_NODE_06",
+    "name": "Manpada - Ghodbunder Road",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 35.8,
+      "freeFlowSpeed": 65,
+      "currentTravelTime": 372,
+      "freeFlowTravelTime": 204,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_07": {
+    "node_id": "THN_NODE_07",
+    "name": "Waghbil Flyover - Ghodbunder Road",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 38.5,
+      "freeFlowSpeed": 70,
+      "currentTravelTime": 374,
+      "freeFlowTravelTime": 205,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_08": {
+    "node_id": "THN_NODE_08",
+    "name": "Gaimukh Ghat / Fountain Hotel Junction",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 30.3,
+      "freeFlowSpeed": 55,
+      "currentTravelTime": 617,
+      "freeFlowTravelTime": 340,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_09": {
+    "node_id": "THN_NODE_09",
+    "name": "Thane Railway Station West (Alok Hotel)",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 14.4,
+      "freeFlowSpeed": 30,
+      "currentTravelTime": 374,
+      "freeFlowTravelTime": 180,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "THN_NODE_10": {
+    "node_id": "THN_NODE_10",
+    "name": "Kopri Bridge / East Thane Connector",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 14.0,
+      "freeFlowSpeed": 40,
+      "currentTravelTime": 514,
+      "freeFlowTravelTime": 180,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "Mumbai": {
+    "node_id": "MUM_BKC_01",
+    "name": "BKC Connector / Kalanagar Junction",
+    "flowSegmentData": {
+      "frc": "FRC1",
+      "currentSpeed": 28.8,
+      "freeFlowSpeed": 60,
+      "currentTravelTime": 400,
+      "freeFlowTravelTime": 192,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "Pune": {
+    "node_id": "MUM_EEH_01",
+    "name": "EEH - Chembur Amar Mahal Junction",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 41.2,
+      "freeFlowSpeed": 75,
+      "currentTravelTime": 393,
+      "freeFlowTravelTime": 216,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+  },
+  "Ratnagiri (Konkan)": {
+    "node_id": "THN_NODE_08",
+    "name": "Gaimukh Ghat / Fountain Hotel Junction",
+    "flowSegmentData": {
+      "frc": "FRC0",
+      "currentSpeed": 30.3,
+      "freeFlowSpeed": 55,
+      "currentTravelTime": 617,
+      "freeFlowTravelTime": 340,
+      "confidence": 0.95,
+      "roadClosure": false
+    },
+    "weather": {
+      "temperature_2m": 29.5,
+      "precipitation": 0.0,
+      "cloud_cover": 45
+    }
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
   }
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ====================================================================
 # Git Ignore Configuration for Traffic Forecasting & Route Predictor
 # ====================================================================
@@ -52,3 +53,24 @@ dist/
 
 # 8. Temporary scratch / log outputs
 *.log
+=======
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Data caches (keep raw csv & sample json)
+data/processed/*.parquet
+data/live_log.csv
+
+# OS generated
+.DS_Store
+Thumbs.db
+>>>>>>> e809fb07cd44c9b807ba2731379e2fc01fec6502
