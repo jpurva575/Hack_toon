@@ -1,0 +1,54 @@
+# ====================================================================
+# Git Ignore Configuration for Traffic Forecasting & Route Predictor
+# ====================================================================
+
+# 1. Environment & API Secrets (CRITICAL: Never commit API keys)
+.env
+.env.local
+.env.*.local
+*.env
+
+# 2. Python Bytecode, Caches, & Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 3. Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# 4. Streamlit local caches & runtime configs
+.streamlit/
+*.streamlit
+
+# 5. IDE, Editor & OS Artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 6. Testing, Coverage & Profiling
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# 7. Distribution & Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# 8. Temporary scratch / log outputs
+*.log
