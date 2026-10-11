@@ -1,137 +1,118 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Tuple, Dict, Any
+from typing import Tuple, Dict, Any, List
 
-from src.config import LEVEL_NAMES, PERCENTILE_CUTOFFS
+from src.config import LEVEL_NAMES, NODES_CONFIG
 
-FEATURE_COLUMNS = [
+# Core features used by the machine learning model
+MODEL_FEATURE_COLUMNS = [
     "hour",
     "day_of_week",
-    "month",
     "is_weekend",
-    "holiday_flag",
-    "temp_c",
-    "rain_mm",
-    "clouds_pct",
+    "is_holiday_festival",
+    "temperature",
+    "rainfall_mm",
+    "waterlogging_index",
+    "air_quality_index",
+    "metro_construction_work",
+    "vip_movement_or_morcha",
+    "vehicle_breakdown_reported",
+    "lanes",
+    "speed_limit",
     "lag_24h",
     "lag_168h"
 ]
 
 
-def clean_raw_data(csv_path: str | Path) -> pd.DataFrame:
+def load_and_preprocess_mumbai_thane(csv_path: str | Path) -> Tuple[pd.DataFrame, Dict[str, float]]:
     """
-    Loads historical traffic CSV, handles duplicates and parses timestamps.
+    Loads the Mumbai-Thane historical dataset, sorts chronologically per node,
+    and computes 24h and 168h volume lags with hour-of-week proxy fallbacks.
     """
     df = pd.read_csv(csv_path)
-    df["date_time"] = pd.to_datetime(df["date_time"])
-    # Drop duplicate timestamps, keeping first occurrence
-    df = df.drop_duplicates(subset=["date_time"], keep="first").sort_values("date_time")
-    return df
-
-
-def engineer_features(df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, float]]:
-    """
-    Constructs all model features:
-    - hour, day_of_week, month, is_weekend, holiday_flag
-    - temp_c (Kelvin to Celsius with outlier sanitization)
-    - rain_mm (rain_1h with physical capping)
-    - clouds_pct (clouds_all clipped [0, 100])
-    - lag_24h and lag_168h with hour-of-week average volume fallback for missing timestamps.
-    """
-    df_indexed = df.set_index("date_time")
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values(["node_id", "timestamp"]).reset_index(drop=True)
     
-    # Create complete hourly index to identify missing time steps
-    full_idx = pd.date_range(df_indexed.index.min(), df_indexed.index.max(), freq="h")
-    df_full = df_indexed.reindex(full_idx)
+    # Target mapping
+    level_map = {"Low": 0, "Moderate": 1, "High": 2, "Severe": 3}
+    df["target"] = df["congestion_level"].map(level_map).astype(int)
     
-    # Calendar features
-    df_full["hour"] = df_full.index.hour
-    df_full["day_of_week"] = df_full.index.dayofweek
-    df_full["month"] = df_full.index.month
-    df_full["is_weekend"] = (df_full["day_of_week"] >= 5).astype(int)
+    # Compute per-node lags
+    df["lag_24h"] = df.groupby("node_id")["total_vehicle_count"].shift(24)
+    df["lag_168h"] = df.groupby("node_id")["total_vehicle_count"].shift(168)
     
-    # Holiday flag (1 if known holiday, 0 otherwise)
-    if "holiday" in df_full.columns:
-        df_full["holiday_flag"] = df_full["holiday"].apply(
-            lambda x: 1 if pd.notnull(x) and str(x).strip().lower() != "none" else 0
-        )
-    else:
-        df_full["holiday_flag"] = 0
-        
-    # Weather features:
-    # 1. Temperature: convert Kelvin to Celsius. Clean sensor glitches (e.g., 0 K).
-    temp_k = df_full["temp"] if "temp" in df_full.columns else pd.Series(293.15, index=df_full.index)
-    temp_c = temp_k - 273.15
-    # Replace unrealistic temperatures (< -50 C or > 60 C) with median
-    temp_c_valid = temp_c.mask((temp_c < -50) | (temp_c > 60), np.nan)
-    median_temp = float(temp_c_valid.median()) if pd.notnull(temp_c_valid.median()) else 15.0
-    df_full["temp_c"] = temp_c_valid.fillna(median_temp)
-    
-    # 2. Rain: rain_1h in mm, capped at 100 mm/h for physical sensor glitches
-    rain = df_full["rain_1h"] if "rain_1h" in df_full.columns else pd.Series(0.0, index=df_full.index)
-    df_full["rain_mm"] = rain.clip(0.0, 100.0).fillna(0.0)
-    
-    # 3. Clouds: clouds_all in percentage [0, 100]
-    clouds = df_full["clouds_all"] if "clouds_all" in df_full.columns else pd.Series(50.0, index=df_full.index)
-    df_full["clouds_pct"] = clouds.clip(0.0, 100.0).fillna(50.0)
-    
-    # Hour-of-week mean volume lookup (used as proxy for missing lags and future inferences)
-    how_mean_volume = (
-        df_full.groupby(["day_of_week", "hour"])["traffic_volume"]
+    # Hour-of-week mean volume lookup per node as proxy for missing lag values
+    how_mean_dict = (
+        df.groupby(["node_id", "day_of_week", "hour"])["total_vehicle_count"]
         .mean()
         .to_dict()
     )
-    # Convert tuple keys to string representation for JSON serialization: "dow_hour"
-    how_mean_serialized = {f"{dow}_{h}": float(val) for (dow, h), val in how_mean_volume.items()}
+    # Serialize keys as string "node_id__dow__hour"
+    how_mean_serialized = {
+        f"{nid}__{dow}__{hr}": round(float(val), 1)
+        for (nid, dow, hr), val in how_mean_dict.items()
+    }
     
-    # Lag features
-    df_full["lag_24h"] = df_full["traffic_volume"].shift(24)
-    df_full["lag_168h"] = df_full["traffic_volume"].shift(168)
-    
-    # Fill missing lag values with hour-of-week average volume proxy
-    lag_proxy = [
-        how_mean_volume.get((dow, h), 3000.0)
-        for dow, h in zip(df_full["day_of_week"], df_full["hour"])
+    # Fill any missing lag (first 24h / 168h of observations) with the hour-of-week mean
+    proxy_values = [
+        how_mean_dict.get((nid, dow, hr), 1200.0)
+        for nid, dow, hr in zip(df["node_id"], df["day_of_week"], df["hour"])
     ]
-    df_full["lag_24h"] = df_full["lag_24h"].fillna(pd.Series(lag_proxy, index=df_full.index))
-    df_full["lag_168h"] = df_full["lag_168h"].fillna(pd.Series(lag_proxy, index=df_full.index))
+    df["lag_24h"] = df["lag_24h"].fillna(pd.Series(proxy_values))
+    df["lag_168h"] = df["lag_168h"].fillna(pd.Series(proxy_values))
     
-    # Filter back to non-null historical traffic records
-    clean_df = df_full.dropna(subset=["traffic_volume"]).copy()
-    clean_df["date_time"] = clean_df.index
-    clean_df = clean_df.reset_index(drop=True)
+    return df, how_mean_serialized
+
+
+def extract_single_feature_vector(
+    node_id: str,
+    dt: Any,
+    meta: Dict[str, Any],
+    weather: Dict[str, float] = None,
+    disruptions: Dict[str, int] = None
+) -> pd.DataFrame:
+    """
+    Constructs a 1-row feature DataFrame for inference at an arbitrary datetime
+    and node, incorporating weather and local disruption conditions.
+    """
+    node_info = NODES_CONFIG.get(node_id, NODES_CONFIG["MUM_BKC_01"])
+    dow = dt.weekday()
+    hr = dt.hour
+    is_weekend = 1 if dow >= 5 else 0
     
-    return clean_df, how_mean_serialized
-
-
-def compute_volume_cutoffs(volumes: pd.Series) -> Dict[str, float]:
-    """
-    Computes cutoffs from volume percentiles: Low < P40, Moderate P40-P70, High P70-P90, Severe > P90.
-    """
-    p40 = float(volumes.quantile(PERCENTILE_CUTOFFS["Low"] / 100.0))
-    p70 = float(volumes.quantile(PERCENTILE_CUTOFFS["Moderate"] / 100.0))
-    p90 = float(volumes.quantile(PERCENTILE_CUTOFFS["High"] / 100.0))
-    return {"P40": p40, "P70": p70, "P90": p90}
-
-
-def classify_volume_to_level(volume: float, cutoffs: Dict[str, float]) -> str:
-    """
-    Maps a traffic volume to its percentile-based congestion level.
-    """
-    if volume < cutoffs["P40"]:
-        return "Low"
-    elif volume <= cutoffs["P70"]:
-        return "Moderate"
-    elif volume <= cutoffs["P90"]:
-        return "High"
-    else:
-        return "Severe"
-
-
-def level_to_class_id(level: str) -> int:
-    return LEVEL_NAMES.index(level)
+    weather = weather or {}
+    disruptions = disruptions or {}
+    
+    how_mean = meta.get("how_mean_volume", {})
+    dow_prev = (dow - 1) % 7
+    lag_24 = how_mean.get(f"{node_id}__{dow_prev}__{hr}", 1200.0)
+    lag_168 = how_mean.get(f"{node_id}__{dow}__{hr}", 1200.0)
+    
+    row = {
+        "hour": hr,
+        "day_of_week": dow,
+        "is_weekend": is_weekend,
+        "is_holiday_festival": int(disruptions.get("is_holiday_festival", 0)),
+        "temperature": float(weather.get("temperature", 29.0)),
+        "rainfall_mm": float(weather.get("rainfall_mm", 0.0)),
+        "waterlogging_index": float(disruptions.get("waterlogging_index", 0.0)),
+        "air_quality_index": float(weather.get("air_quality_index", 110.0)),
+        "metro_construction_work": int(disruptions.get("metro_construction_work", 0)),
+        "vip_movement_or_morcha": int(disruptions.get("vip_movement_or_morcha", 0)),
+        "vehicle_breakdown_reported": int(disruptions.get("vehicle_breakdown_reported", 0)),
+        "lanes": int(node_info["lanes"]),
+        "speed_limit": float(node_info["speed_limit"]),
+        "lag_24h": float(lag_24),
+        "lag_168h": float(lag_168)
+    }
+    
+    return pd.DataFrame([row], columns=MODEL_FEATURE_COLUMNS)
 
 
 def class_id_to_level(class_id: int) -> str:
     return LEVEL_NAMES[int(class_id)]
+
+
+def level_to_class_id(level: str) -> int:
+    return LEVEL_NAMES.index(level)

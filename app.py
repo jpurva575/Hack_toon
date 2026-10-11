@@ -7,16 +7,19 @@ import joblib
 from src.config import MODEL_PATH, META_PATH
 from src.ui_f1 import render_feature1_tab
 from src.ui_f2 import render_feature2_tab
-from src.train import train_pipeline
+from src.ui_f3 import render_feature3_tab
+from src.ui_f4 import render_feature4_tab
+from src.ui_f5 import render_feature5_tab
+from src.train import train_mumbai_thane_model
 
 st.set_page_config(
-    page_title="Traffic Congestion Forecasting (5–120 min)",
+    page_title="Mumbai-Thane Traffic Intelligence Suite (5 Features)",
     page_icon="🚦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom header CSS
+# Custom header styling
 st.markdown("""
 <style>
     .main-title {
@@ -28,7 +31,7 @@ st.markdown("""
     .sub-title {
         font-size: 1.05rem;
         color: #4a5568;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -39,7 +42,7 @@ def load_artifacts():
     """Loads trained model and metadata."""
     if not MODEL_PATH.exists() or not META_PATH.exists():
         with st.spinner("Model artifacts not found. Training model pipeline now..."):
-            meta = train_pipeline()
+            meta = train_mumbai_thane_model()
             model = joblib.load(MODEL_PATH)
             return model, meta
             
@@ -50,49 +53,54 @@ def load_artifacts():
 
 
 def main():
-    st.markdown('<div class="main-title">🚦 Traffic Congestion Forecasting System</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-title">Dual-engine predictive architecture: Historical Pattern Classifier + Live Decay Blending (5–120 min)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">🚦 Mumbai-Thane Traffic Congestion Intelligence Suite</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-title">5 Integrated Predictive & Decision Engines (Pattern Insights, 5–120m Blend, Delay Estimator, Bottleneck Finder, Route Comparison & Alerts)</div>', unsafe_allow_html=True)
 
-    # Sidebar
+    # Sidebar controls
     with st.sidebar:
         st.header("⚙️ System Control")
         st.info(
             """
-            **Deliverables Built:**
-            - **Feature 1:** Pattern Learning & Congestion Classifier (Macro-F1 0.838 vs Baseline 0.813)
-            - **Feature 2:** Live Integration & 5–120 min Exponential Decay Blend (tau = 60m)
+            **5 Integrated Features:**
+            1. **Pattern Insights & Classifier:** Macro-F1 0.926 vs Baseline 0.614
+            2. **Live 5–120m Forecasting:** Exponential decay blend (tau = 60m)
+            3. **Traffic Impact & Delay Estimator:** Free-flow vs actual delay & TTI
+            4. **Congestion Bottleneck Finder:** Network ranking & deterioration
+            5. **Route Comparison & Alerts:** Side-by-side corridors & warnings
             """
         )
-        if st.button("🔁 Retrain Feature 1 Model"):
-            with st.spinner("Retraining model on historical dataset..."):
+        if st.button("🔁 Retrain Model Pipeline"):
+            with st.spinner("Retraining model on Mumbai-Thane dataset..."):
                 st.cache_resource.clear()
-                train_pipeline()
-                st.success("Model successfully retrained and saved!")
+                train_mumbai_thane_model()
+                st.success("Model successfully retrained and cached!")
                 st.rerun()
 
         st.markdown("---")
-        st.markdown("### 📋 Teammate Demo Guide (2 min)")
+        st.markdown("### 📋 GitHub Handover Guide")
         st.markdown(
             """
-            1. **Feature 1 Tab:** Show Monday 08:00 AM prediction, top drivers (Hour, Lags), and weekday vs weekend curves.
-            2. **Feature 2 Tab:** Pick Mumbai corridor, click *Fetch Live Status*, inspect 7 forecast horizons.
-            3. **Sensitivity Check:** Move *Simulate live speed ratio* to **0.30** $\\rightarrow$ see +5 min turn Severe while +120 min retains historical anchor.
+            - **All 31 Corridors:** Live speed stream + Open-Meteo weather
+            - **Unit Tests:** `python -m unittest tests.test_all_features`
+            - **Run Command:** `streamlit run app.py`
             """
         )
-        st.markdown("---")
-        st.caption("Antigravity AI | Production Deliverable")
+        st.caption("Mumbai-Thane Urban Traffic System | Production Ready")
 
-    # Load trained model and metadata
+    # Load artifacts
     try:
         model, meta = load_artifacts()
     except Exception as e:
         st.error(f"Failed to load model artifacts: {e}")
         return
 
-    # Two main feature tabs matching PRD
-    tab1, tab2 = st.tabs([
-        "📊 Feature 1: Pattern Learning & Classifier",
-        "⚡ Feature 2: Live Integration & 5–120 min Forecast"
+    # 5 Feature Tabs
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📊 1. Pattern Insights",
+        "⚡ 2. Live 5–120m Forecast",
+        "⏱️ 3. Delay & Impact",
+        "🚨 4. Bottleneck Finder",
+        "🛣️ 5. Route Comparison & Alerts"
     ])
 
     with tab1:
@@ -100,6 +108,15 @@ def main():
 
     with tab2:
         render_feature2_tab(meta)
+
+    with tab3:
+        render_feature3_tab(meta)
+
+    with tab4:
+        render_feature4_tab(meta)
+
+    with tab5:
+        render_feature5_tab(meta)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Data caches (keep raw csv & sample json)
+data/processed/*.parquet
+data/live_log.csv
+
+# OS generated
+.DS_Store
+Thumbs.db
